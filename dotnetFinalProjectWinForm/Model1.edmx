@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GameRecordsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TblGame">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="GameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameDate" Type="datetime" Nullable="false" />
+          <Property Name="Result" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblMoves">
+          <Key>
+            <PropertyRef Name="MoveId" />
+          </Key>
+          <Property Name="MoveId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameId" Type="int" Nullable="false" />
+          <Property Name="FromRow" Type="int" Nullable="false" />
+          <Property Name="FromCol" Type="int" Nullable="false" />
+          <Property Name="ToRow" Type="int" Nullable="false" />
+          <Property Name="ToCol" Type="int" Nullable="false" />
+          <Property Name="PieceType" Type="int" Nullable="false" />
+          <Property Name="MoveNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_GameId _ToTable">
+          <End Role="TblGame" Type="Self.TblGame" Multiplicity="1" />
+          <End Role="TblMoves" Type="Self.TblMoves" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblGame">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="TblMoves">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GameRecordsModelStoreContainer">
+          <EntitySet Name="TblGame" EntityType="Self.TblGame" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblMoves" EntityType="Self.TblMoves" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_GameId _ToTable" Association="Self.FK_GameId _ToTable">
+            <End Role="TblGame" EntitySet="TblGame" />
+            <End Role="TblMoves" EntitySet="TblMoves" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GameRecordsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TblGame">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="GameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Result" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblMoves" Relationship="Self.FK_GameId__ToTable" FromRole="TblGame" ToRole="TblMoves" />
+        </EntityType>
+        <EntityType Name="TblMoves">
+          <Key>
+            <PropertyRef Name="MoveId" />
+          </Key>
+          <Property Name="MoveId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameId" Type="Int32" Nullable="false" />
+          <Property Name="FromRow" Type="Int32" Nullable="false" />
+          <Property Name="FromCol" Type="Int32" Nullable="false" />
+          <Property Name="ToRow" Type="Int32" Nullable="false" />
+          <Property Name="ToCol" Type="Int32" Nullable="false" />
+          <Property Name="PieceType" Type="Int32" Nullable="false" />
+          <Property Name="MoveNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblGame" Relationship="Self.FK_GameId__ToTable" FromRole="TblMoves" ToRole="TblGame" />
+        </EntityType>
+        <Association Name="FK_GameId__ToTable">
+          <End Role="TblGame" Type="Self.TblGame" Multiplicity="1" />
+          <End Role="TblMoves" Type="Self.TblMoves" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblGame">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="TblMoves">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GameRecordsEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TblGame" EntityType="Self.TblGame" />
+          <EntitySet Name="TblMoves" EntityType="Self.TblMoves" />
+          <AssociationSet Name="FK_GameId__ToTable" Association="Self.FK_GameId__ToTable">
+            <End Role="TblGame" EntitySet="TblGame" />
+            <End Role="TblMoves" EntitySet="TblMoves" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GameRecordsModelStoreContainer" CdmEntityContainer="GameRecordsEntities1">
+          <EntitySetMapping Name="TblGame">
+            <EntityTypeMapping TypeName="GameRecordsModel.TblGame">
+              <MappingFragment StoreEntitySet="TblGame">
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="GameDate" ColumnName="GameDate" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblMoves">
+            <EntityTypeMapping TypeName="GameRecordsModel.TblMoves">
+              <MappingFragment StoreEntitySet="TblMoves">
+                <ScalarProperty Name="MoveId" ColumnName="MoveId" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="FromRow" ColumnName="FromRow" />
+                <ScalarProperty Name="FromCol" ColumnName="FromCol" />
+                <ScalarProperty Name="ToRow" ColumnName="ToRow" />
+                <ScalarProperty Name="ToCol" ColumnName="ToCol" />
+                <ScalarProperty Name="PieceType" ColumnName="PieceType" />
+                <ScalarProperty Name="MoveNumber" ColumnName="MoveNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
